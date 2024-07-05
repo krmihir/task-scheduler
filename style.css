@@ -1,0 +1,119 @@
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	background-color: #333;
+	color: #fff;
+	padding: 10px 0;
+	text-align: center;
+}
+
+h1 {
+	margin: 0;
+}
+
+main {
+	padding: 20px;
+}
+
+.task-form {
+	display: flex;
+	flex-wrap: wrap; /* Allows wrapping of elements in smaller screens */
+	justify-content: space-between;
+	margin-bottom: 20px;
+}
+
+.task-form input, .task-form select, .task-form button {
+	padding: 10px;
+	margin-bottom: 10px;
+	font-size: 16px;
+	flex: 1 1 200px; /* Allows elements to grow, shrink and have a minimum width */
+	margin-right: 10px;
+}
+
+.task-form button {
+	background-color: #5cb85c;
+	color: white;
+	border: none;
+	cursor: pointer;
+	margin-right: 0; /* Ensure last element does not have extra margin */
+}
+
+.task-form button:hover {
+	background-color: #4cae4c;
+}
+
+.task-list {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.task {
+	border-bottom: 1px solid #ddd;
+	padding: 10px 0;
+}
+
+.task:last-child {
+	border-bottom: none;
+}
+
+.task p {
+	margin: 0;
+}
+
+.mark-done {
+	background-color: #d9534f;
+	color: white;
+	border: none;
+	cursor: pointer;
+	padding: 5px 10px;
+}
+
+.mark-done:hover {
+	background-color: #c9302c;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+	main {
+		padding: 10px;
+	}
+
+	.task-form {
+		flex-direction: column; /* Stack elements vertically on smaller screens */
+	}
+
+	.task-form input, .task-form select, .task-form button {
+		flex: 1 1 auto; /* Allow elements to adjust their width */
+		margin-right: 0; /* Remove right margin */
+	}
+
+	.task-form button {
+		margin-top: 10px; /* Add margin top to button */
+	}
+}
+
+@media (max-width: 480px) {
+	header {
+		padding: 10px;
+	}
+
+	h1 {
+		font-size: 24px; /* Reduce heading size */
+	}
+
+	.task-form input, .task-form select, .task-form button {
+		font-size: 14px; /* Reduce font size */
+		padding: 8px; /* Adjust padding */
+	}
+
+	.task-list {
+		padding: 10px; /* Reduce padding */
+	}
+}
