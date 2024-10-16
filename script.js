@@ -4,43 +4,84 @@ const deadlineInput = document.getElementById("deadline");
 const addTaskButton = document.getElementById("add-task");
 const taskList = document.getElementById("task-list");
 
+// Initialize tasks from local storage
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+// Function to render tasks from the array
+function renderTasks() {
+    taskList.innerHTML = "";
+    tasks.forEach((task, index) => {
+        const taskItem = document.createElement("div");
+        taskItem.classList.add("task");
+        taskItem.innerHTML = `
+            <p><strong>Task:</strong> ${task.text}</p>
+            <p><strong>Priority:</strong> ${task.priority}</p>
+            <p><strong>Deadline:</strong> ${task.deadline}</p>
+            <p><strong>Status:</strong> ${task.done ? "Done" : "Pending"}</p>
+            <button class="mark-done" data-index="${index}">${task.done ? "Undo" : "Mark Done"}</button>
+            <button class="edit-task" data-index="${index}">Edit</button>
+            <button class="delete-task" data-index="${index}">Delete</button>
+        `;
+        taskList.appendChild(taskItem);
+    });
+}
+
+// Load existing tasks on page load
+document.addEventListener("DOMContentLoaded", renderTasks);
+
+// Add new task
 addTaskButton.addEventListener("click", () => {
-	const task = taskInput.value;
-	const priority = priorityInput.value;
-	const deadline = deadlineInput.value;
-	if (task.trim() === "" || deadline === "") {
-		alert("Please fill the task or prority")
-		return; // Don't add task if task or deadline is empty
-	}
+    const taskText = taskInput.value;
+    const priority = priorityInput.value;
+    const deadline = deadlineInput.value;
 
-	const selectedDate = new Date(deadline);
-	const currentDate = new Date();
+    if (taskText.trim() === "" || priority === "select" || deadline === "") {
+        alert("Please fill out all fields.");
+        return;
+    }
 
-	if (selectedDate <= currentDate) {
-		alert("Please select an upcoming date for the deadline.");
-		return; // Don't add task if deadline is not in the future
-	}
+    const selectedDate = new Date(deadline);
+    const currentDate = new Date();
 
+    if (selectedDate <= currentDate) {
+        alert("Please select an upcoming date for the deadline.");
+        return;
+    }
 
-	const taskItem = document.createElement("div");
-	taskItem.classList.add("task");
-	taskItem.innerHTML = `
-	<p>${task}</p>
-	<p>Priority: ${priority}</p>
-	<p>Deadline: ${deadline}</p>
-	<button class="mark-done">Mark Done</button>
-`;
+    const newTask = {
+        text: taskText,
+        priority,
+        deadline,
+        done: false
+    };
 
-	taskList.appendChild(taskItem);
+    tasks.push(newTask);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
 
-	taskInput.value = "";
-	priorityInput.value = "top";
-	deadlineInput.value = "";
+    taskInput.value = "";
+    priorityInput.value = "select";
+    deadlineInput.value = "";
 });
 
+// Handle button actions (mark done, edit, delete)
 taskList.addEventListener("click", (event) => {
-	if (event.target.classList.contains("mark-done")) {
-        const taskItem = event.target.parentElement;
-        taskList.removeChild(taskItem); // Remove the task item from the task lis
-	}
+    const index = event.target.dataset.index;
+
+    if (event.target.classList.contains("mark-done")) {
+        tasks[index].done = !tasks[index].done; // Toggle done status
+    } else if (event.target.classList.contains("edit-task")) {
+        // Prefill the form with the selected task's data
+        taskInput.value = tasks[index].text;
+        priorityInput.value = tasks[index].priority;
+        deadlineInput.value = tasks[index].deadline;
+
+        // Remove the task from the list so it can be re-added after editing
+        tasks.splice(index, 1);
+    } else if (event.target.classList.contains("delete-task")) {
+        tasks.splice(index, 1); // Remove task from the array
+    }
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks(); // Re-render the task list
 });

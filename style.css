@@ -68,7 +68,7 @@ main {
 }
 
 .mark-done {
-	background-color: #d9534f;
+	background-color: #008000;
 	color: white;
 	border: none;
 	cursor: pointer;
@@ -76,8 +76,33 @@ main {
 }
 
 .mark-done:hover {
-	background-color: #c9302c;
+	background-color: #006400;
 }
+
+.edit-task {
+    background-color: #f0ad4e;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.edit-task:hover {
+    background-color: #ec971f;
+}
+
+.delete-task {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.delete-task:hover {
+    background-color: #c9302c;
+}
+
 
 /* Responsive Styles */
 @media (max-width: 768px) {
